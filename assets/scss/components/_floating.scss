@@ -1,0 +1,89 @@
+/* assets/scss/components/_floating.scss */
+.floating-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 1900; /* أقل قليلاً من Bottom Nav */
+}
+
+.btn-float {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  
+  svg {
+    width: 30px;
+    height: 30px;
+    fill: currentColor;
+  }
+
+  /* Tooltip text */
+  &::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    right: 70px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+    
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  /* WhatsApp Style */
+  &.whatsapp {
+    background: #25D366;
+    &:hover { background: #128C7E; }
+  }
+
+  /* CV Style */
+  &.cv {
+    background: var(--color-primary);
+    &:hover { background: var(--color-secondary); }
+  }
+}
+
+/* تعديل الموقع للموبايل لتجنب التداخل مع القائمة السفلية */
+@media (max-width: 768px) {
+  .floating-container {
+    bottom: 5.5rem; /* نرفعها للأعلى فوق الـ Bottom Nav */
+    right: 1rem;
+  }
+  
+  .btn-float {
+    width: 50px;
+    height: 50px;
+    
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+/* كلاس لإخفاء تصميم الـ CV المخصص للطباعة */
+#cv-template {
+  display: none;
+}
