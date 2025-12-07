@@ -37,9 +37,10 @@
     "sameAs": [
         {{ $links := slice }}
         {{ range .Site.Params.social }}
-            {{ $links = $links | append .url }}
+            {{/* ✅ التصحيح هنا: إضافة علامات التنصيص حول الرابط */}}
+            {{ $links = $links | append (printf "\"%s\"" .url) }}
         {{ end }}
-        {{ delimit $links ",\n        " | safeJS }}
+        {{ delimit $links "," | safeJS }}
     ]
 }
 </script>
@@ -82,9 +83,10 @@
     "sameAs": [
         {{ $links := slice }}
         {{ range .Site.Params.social }}
-            {{ $links = $links | append .url }}
+            {{/* ✅ التصحيح هنا أيضاً */}}
+            {{ $links = $links | append (printf "\"%s\"" .url) }}
         {{ end }}
-        {{ delimit $links ",\n        " | safeJS }}
+        {{ delimit $links "," | safeJS }}
     ]
 }
 </script>
