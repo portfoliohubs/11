@@ -1,0 +1,77 @@
+/* assets/scss/components/_gallery.scss */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  .images-wrapper {
+    position: relative;
+    display: flex;
+    aspect-ratio: 16/9;
+    
+    img {
+      width: 50%;
+      height: 100%;
+      object-fit: cover;
+      transition: width 0.3s ease;
+      
+      &:hover {
+        width: 60%; /* تأثير بسيط عند التحويم */
+      }
+    }
+  }
+
+  .case-info {
+    padding: 1.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--glass-border);
+
+    h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--color-primary);
+    }
+
+    p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+  }
+
+  /* ملصقات قبل وبعد */
+  .label {
+    position: absolute;
+    top: 10px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: white;
+    z-index: 2;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    
+    &.before {
+      left: 10px;
+      background: rgba(239, 68, 68, 0.8); /* Red */
+    }
+    
+    &.after {
+      right: 10px;
+      background: rgba(16, 185, 129, 0.8); /* Green */
+    }
+  }
+}
