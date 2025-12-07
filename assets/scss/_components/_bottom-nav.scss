@@ -1,396 +1,60 @@
-// ===================================
-// 📲 Bottom Navigation Bar
-// ===================================
+/* assets/scss/components/_bottom-nav.scss */
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
-  right: 0;
-  height: var(--bottom-nav-height);
-  background-color: var(--bottom-nav-bg);
-  border-top: 1px solid var(--color-border);
-  box-shadow: var(--bottom-nav-shadow);
-  z-index: var(--z-fixed);
+  width: 100%;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--glass-border);
+  z-index: 2000;
   display: flex;
-  transition: var(--transition-base);
-  
-  // Hide on desktop
-  @include respond-to('md') {
+  justify-content: space-around;
+  padding: 0.8rem 0;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+
+  /* إخفاء القائمة على الشاشات الكبيرة */
+  @media (min-width: 769px) {
     display: none;
   }
-  
-  // Glass effect for modern look
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
 
-// ===================================
-// 📋 Navigation Items Container
-// ===================================
-.bottom-nav-items {
-  display: flex;
-  width: 100%;
-  justify-content: space-around;
-  align-items: center;
-  padding: 0 var(--space-2);
-}
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    transition: all 0.3s ease;
+    gap: 4px;
 
-// ===================================
-// 🔲 Navigation Item
-// ===================================
-.bottom-nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-1);
-  padding: var(--space-2);
-  color: var(--color-text-muted);
-  text-decoration: none;
-  min-width: 64px;
-  flex: 1;
-  max-width: 96px;
-  transition: var(--transition-fast);
-  border-radius: var(--radius-base);
-  position: relative;
-  
-  // Icon
-  .nav-icon {
-    width: 24px;
-    height: 24px;
-    position: relative;
-    transition: var(--transition-fast);
-    
     svg {
-      width: 100%;
-      height: 100%;
-      stroke-width: 2;
+      width: 24px;
+      height: 24px;
+      stroke-width: 2px;
     }
-  }
-  
-  // Label
-  .nav-label {
-    font-size: 11px;
-    font-weight: var(--font-medium);
-    text-align: center;
-    line-height: 1.2;
-    transition: var(--transition-fast);
-  }
-  
-  // Active State
-  &.active {
-    color: var(--color-primary);
-    
-    .nav-icon {
+
+    &.active, &:hover {
+      color: var(--color-primary);
       transform: translateY(-2px);
       
       svg {
-        stroke-width: 2.5;
-      }
-    }
-    
-    .nav-label {
-      font-weight: var(--font-bold);
-    }
-    
-    // Active Indicator
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 32px;
-      height: 3px;
-      background-color: var(--color-primary);
-      border-radius: 0 0 var(--radius-full) var(--radius-full);
-    }
-  }
-  
-  // Hover State
-  &:hover:not(.active) {
-    color: var(--color-text);
-    background-color: var(--bg-secondary);
-    
-    .nav-icon {
-      transform: scale(1.1);
-    }
-  }
-  
-  // Focus State
-  @include focus-ring;
-  
-  &:focus-visible {
-    outline-offset: -2px;
-  }
-  
-  // Badge (for notifications)
-  .nav-badge {
-    position: absolute;
-    top: 4px;
-    @include end(12px);
-    min-width: 18px;
-    height: 18px;
-    padding: 0 4px;
-    background-color: var(--color-error);
-    color: white;
-    font-size: 10px;
-    font-weight: var(--font-bold);
-    border-radius: var(--radius-full);
-    @include flex-center;
-    border: 2px solid var(--bottom-nav-bg);
-  }
-}
-
-// ===================================
-// 🎯 Center Action Button (FAB style)
-// ===================================
-.bottom-nav-fab {
-  position: relative;
-  
-  .fab-button {
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 56px;
-    height: 56px;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-    color: white;
-    border: 4px solid var(--bottom-nav-bg);
-    border-radius: 50%;
-    box-shadow: var(--shadow-lg);
-    @include flex-center;
-    cursor: pointer;
-    transition: var(--transition-base);
-    
-    svg {
-      width: 28px;
-      height: 28px;
-      stroke-width: 2.5;
-    }
-    
-    &:hover {
-      transform: translateX(-50%) scale(1.1);
-      box-shadow: var(--shadow-xl);
-    }
-    
-    &:active {
-      transform: translateX(-50%) scale(0.95);
-    }
-    
-    @include focus-ring;
-  }
-  
-  // Placeholder for alignment
-  .fab-placeholder {
-    width: 64px;
-    height: var(--bottom-nav-height);
-  }
-}
-
-// ===================================
-// 🎨 Variants
-// ===================================
-
-// Solid Background
-.bottom-nav-solid {
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  background-color: var(--bg-primary);
-}
-
-// Transparent (glass only)
-.bottom-nav-transparent {
-  background-color: transparent;
-  border-top-color: rgba(255, 255, 255, 0.1);
-  
-  [data-theme="dark"] & {
-    border-top-color: rgba(255, 255, 255, 0.05);
-  }
-}
-
-// ===================================
-// 🌊 Animated Ripple Effect
-// ===================================
-@keyframes ripple {
-  0% {
-    transform: scale(0.8);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
-
-.bottom-nav-item {
-  &::after {
-    content: '';
-    position: absolute;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background-color: var(--color-primary);
-    opacity: 0;
-    pointer-events: none;
-  }
-  
-  &:active::after {
-    animation: ripple 0.6s ease-out;
-  }
-}
-
-// ===================================
-// 📱 Safe Area Support (iPhone notch)
-// ===================================
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-  .bottom-nav {
-    padding-bottom: env(safe-area-inset-bottom);
-    height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
-  }
-  
-  .bottom-nav-fab .fab-button {
-    bottom: calc(12px + env(safe-area-inset-bottom));
-  }
-}
-
-// ===================================
-// 🎭 Hide on Scroll Down (optional)
-// ===================================
-.bottom-nav-auto-hide {
-  transform: translateY(0);
-  transition: transform var(--duration-base) var(--ease-in-out);
-  
-  &.hidden {
-    transform: translateY(100%);
-  }
-}
-
-// ===================================
-// 📊 Progress Bar (optional feature)
-// ===================================
-.bottom-nav-progress {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-  transition: width var(--duration-fast) var(--ease-out);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-}
-
-// ===================================
-// 🔔 More Options Menu
-// ===================================
-.bottom-nav-menu {
-  position: absolute;
-  bottom: calc(100% + var(--space-2));
-  @include end(var(--space-4));
-  background-color: var(--bg-primary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xl);
-  padding: var(--space-2);
-  min-width: 200px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: var(--transition-base);
-  
-  &.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-  
-  .menu-item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-3) var(--space-4);
-    color: var(--color-text);
-    text-decoration: none;
-    font-size: var(--text-sm);
-    border-radius: var(--radius-base);
-    transition: var(--transition-base);
-    
-    svg {
-      width: 20px;
-      height: 20px;
-      color: var(--color-text-secondary);
-    }
-    
-    &:hover {
-      background-color: var(--bg-secondary);
-      color: var(--color-primary);
-      
-      svg {
-        color: var(--color-primary);
-      }
-    }
-  }
-  
-  .menu-divider {
-    height: 1px;
-    background-color: var(--color-border);
-    margin: var(--space-2) 0;
-  }
-}
-
-// ===================================
-// 🎨 Theme Variants
-// ===================================
-
-// Primary Theme
-.bottom-nav-primary {
-  background: linear-gradient(180deg, transparent, var(--color-primary));
-  border-top-color: transparent;
-  
-  .bottom-nav-item {
-    color: rgba(255, 255, 255, 0.7);
-    
-    &.active {
-      color: white;
-      
-      &::before {
-        background-color: white;
+        stroke: var(--color-primary);
+        fill: rgba(var(--color-primary-rgb), 0.1);
       }
     }
   }
 }
 
-// ===================================
-// ♿ Accessibility
-// ===================================
-@media (prefers-reduced-motion: reduce) {
-  .bottom-nav,
-  .bottom-nav-item,
-  .fab-button,
-  .bottom-nav-menu {
-    transition: none;
+/* رفع المحتوى قليلاً حتى لا يغطيه البار السفلي في الموبايل */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 70px;
   }
   
-  .bottom-nav-item {
-    &:hover .nav-icon {
-      transform: none;
-    }
-    
-    &.active .nav-icon {
-      transform: none;
-    }
-    
-    &::after {
-      animation: none;
-    }
+  /* إخفاء الأزرار العائمة خلف البار السفلي */
+  .floating-btn {
+    bottom: 80px !important; 
   }
-  
-  .fab-button:hover {
-    transform: translateX(-50%);
-  }
-}
-
-// Screen Reader Text for Icons
-.bottom-nav-item .sr-only {
-  @include sr-only;
 }
