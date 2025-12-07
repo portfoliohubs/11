@@ -1,0 +1,22 @@
+{
+  "name": "د. أحمد محمد السيد - استشاري تجميل وزراعة الأسنان",
+  "short_name": "د. أحمد",
+  "description": "عيادة متخصصة في تجميل وزراعة الأسنان بأحدث التقنيات العالمية",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0077BE",
+  "orientation": "portrait-primary",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "/images/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "medical", "dentistry"],
+  "screenshots": []
+}

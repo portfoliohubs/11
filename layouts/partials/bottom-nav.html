@@ -1,0 +1,75 @@
+{{- /* ================================= */ -}}
+{{- /* Bottom Navigation Bar (Mobile Only) */ -}}
+{{- /* ================================= */ -}}
+
+<nav class="bottom-nav" role="navigation" aria-label="التنقل السفلي">
+    <div class="bottom-nav-items">
+        {{ $currentPage := . }}
+        {{ range .Site.Menus.bottom }}
+            <a href="{{ .URL }}" 
+               class="bottom-nav-item{{ if or ($currentPage.IsMenuCurrent "bottom" .) ($currentPage.HasMenuCurrent "bottom" .) }} active{{ end }}"
+               {{ if hasPrefix .URL "#" }}data-smooth-scroll{{ end }}
+               aria-label="{{ .Name }}">
+                <span class="nav-icon">
+                    {{ partial "icons/nav.html" (dict "icon" .Params.icon) }}
+                </span>
+                <span class="nav-label">{{ .Name }}</span>
+                
+                {{- /* Badge Example (optional) */ -}}
+                {{ if eq .Params.icon "calendar" }}
+                    {{- /* <span class="nav-badge">3</span> */ -}}
+                {{ end }}
+            </a>
+        {{ end }}
+    </div>
+</nav>
+
+{{- /* Inline Script for Active State */ -}}
+<script>
+(function() {
+    const navItems = document.querySelectorAll('.bottom-nav-item');
+    const currentPath = window.location.pathname;
+    const currentHash = window.location.hash;
+    
+    // Update active state based on current URL
+    navItems.forEach(item => {
+        const href = item.getAttribute('href');
+        
+        // Check for exact path match or hash match
+        if (href === currentPath || (href.startsWith('#') && href === currentHash)) {
+            item.classList.add('active');
+        }
+    });
+    
+    // Update active state on hash change
+    window.addEventListener('hashchange', function() {
+        const newHash = window.location.hash;
+        navItems.forEach(item => {
+            const href = item.getAttribute('href');
+            item.classList.remove('active');
+            if (href.startsWith('#') && href === newHash) {
+                item.classList.add('active');
+            }
+        });
+    });
+    
+    // Smooth scroll for hash links
+    document.querySelectorAll('[data-smooth-scroll]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Update URL without page jump
+                    history.pushState(null, null, href);
+                }
+            }
+        });
+    });
+})();
+</script>

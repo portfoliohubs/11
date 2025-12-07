@@ -1,0 +1,488 @@
+// ===================================
+// 🎈 Floating Buttons Container
+// ===================================
+.floating-buttons {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  z-index: var(--z-floating);
+  
+  // Position Variants
+  &.floating-left {
+    bottom: var(--floating-btn-offset);
+    @include start(var(--floating-btn-offset));
+  }
+  
+  &.floating-right {
+    bottom: var(--floating-btn-offset);
+    @include end(var(--floating-btn-offset));
+  }
+  
+  // Adjust for Bottom Nav on Mobile
+  @media (max-width: 767px) {
+    bottom: calc(var(--bottom-nav-height) + var(--space-4));
+  }
+}
+
+// ===================================
+// 🔘 Base Floating Button
+// ===================================
+.floating-btn {
+  position: relative;
+  width: var(--floating-btn-size);
+  height: var(--floating-btn-size);
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  @include flex-center;
+  box-shadow: var(--floating-btn-shadow);
+  transition: var(--transition-base);
+  overflow: hidden;
+  
+  // Icon
+  svg,
+  i {
+    width: 28px;
+    height: 28px;
+    z-index: 1;
+  }
+  
+  // Ripple Effect Background
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: inherit;
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0);
+    transition: var(--transition-base);
+  }
+  
+  // Hover State
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-xl);
+    
+    &::before {
+      opacity: 0.2;
+      transform: scale(1.5);
+    }
+  }
+  
+  // Active/Click State
+  &:active {
+    transform: scale(0.95);
+  }
+  
+  // Focus State
+  @include focus-ring;
+  
+  // Tooltip
+  .btn-tooltip {
+    position: absolute;
+    white-space: nowrap;
+    background-color: var(--color-dark);
+    color: white;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-base);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition-base);
+    pointer-events: none;
+    z-index: var(--z-tooltip);
+    
+    // Position based on parent
+    .floating-left & {
+      @include start(calc(100% + var(--space-3)));
+      top: 50%;
+      transform: translateY(-50%) translateX(-10px);
+    }
+    
+    .floating-right & {
+      @include end(calc(100% + var(--space-3)));
+      top: 50%;
+      transform: translateY(-50%) translateX(10px);
+    }
+    
+    // Arrow
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border: 6px solid transparent;
+      
+      .floating-left & {
+        @include end(100%);
+        transform: translateY(-50%);
+        border-inline-end-color: var(--color-dark);
+      }
+      
+      .floating-right & {
+        @include start(100%);
+        transform: translateY(-50%);
+        border-inline-start-color: var(--color-dark);
+      }
+    }
+  }
+  
+  &:hover .btn-tooltip {
+    opacity: 1;
+    visibility: visible;
+    
+    .floating-left & {
+      transform: translateY(-50%) translateX(0);
+    }
+    
+    .floating-right & {
+      transform: translateY(-50%) translateX(0);
+    }
+  }
+}
+
+// ===================================
+// 📱 WhatsApp Button
+// ===================================
+.whatsapp-btn {
+  background-color: #25D366;
+  color: white;
+  
+  &:hover {
+    background-color: #1EBE57;
+  }
+  
+  // Pulse Animation
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 3px solid #25D366;
+    border-radius: 50%;
+    animation: whatsappPulse 2s ease-out infinite;
+  }
+}
+
+@keyframes whatsappPulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+// ===================================
+// 📄 Download CV Button
+// ===================================
+.download-btn {
+  background-color: var(--color-primary);
+  color: white;
+  
+  &:hover {
+    background-color: var(--color-primary-dark);
+  }
+  
+  // Loading State
+  &.loading {
+    pointer-events: none;
+    
+    svg {
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ===================================
+// ☎️ Call Button (optional)
+// ===================================
+.call-btn {
+  background-color: var(--color-success);
+  color: white;
+  
+  &:hover {
+    background-color: #218838;
+  }
+  
+  // Ringing Animation
+  &.ringing {
+    animation: ring 1s ease-in-out infinite;
+  }
+}
+
+@keyframes ring {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  10%, 30% {
+    transform: rotate(-10deg);
+  }
+  20%, 40% {
+    transform: rotate(10deg);
+  }
+}
+
+// ===================================
+// 📧 Email Button (optional)
+// ===================================
+.email-btn {
+  background-color: var(--color-info);
+  color: white;
+  
+  &:hover {
+    background-color: #117A8B;
+  }
+}
+
+// ===================================
+// 🔝 Scroll to Top Button
+// ===================================
+.scroll-top-btn {
+  background-color: var(--color-primary);
+  color: white;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  
+  &:hover {
+    background-color: var(--color-primary-dark);
+  }
+}
+
+// ===================================
+// 🎯 Multi-Action Floating Button (FAB Menu)
+// ===================================
+.fab-menu {
+  position: relative;
+  
+  // Main Button
+  .fab-main {
+    @extend .floating-btn;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: white;
+    
+    &.active {
+      svg {
+        transform: rotate(45deg);
+      }
+    }
+  }
+  
+  // Sub Buttons Container
+  .fab-actions {
+    position: absolute;
+    bottom: calc(100% + var(--space-3));
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: var(--transition-base);
+    
+    &.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .fab-action {
+      @extend .floating-btn;
+      width: 48px;
+      height: 48px;
+      transform-origin: center;
+      animation: fabSlideIn 0.3s var(--ease-bounce) forwards;
+      
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+      
+      @for $i from 1 through 5 {
+        &:nth-child(#{$i}) {
+          animation-delay: #{$i * 0.05}s;
+        }
+      }
+    }
+  }
+  
+  // Backdrop
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition-base);
+    z-index: -1;
+  }
+  
+  &.active::before {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes fabSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// ===================================
+// 🎨 Button Badge (notifications)
+// ===================================
+.floating-btn-badge {
+  position: absolute;
+  top: -4px;
+  @include end(-4px);
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background-color: var(--color-error);
+  color: white;
+  font-size: 11px;
+  font-weight: var(--font-bold);
+  border-radius: var(--radius-full);
+  @include flex-center;
+  border: 2px solid var(--bg-primary);
+  z-index: 2;
+}
+
+// ===================================
+// 🌊 Wave Effect on Click
+// ===================================
+.floating-btn-wave {
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-color: inherit;
+    opacity: 0.5;
+    transform: scale(0);
+  }
+  
+  &:active::after {
+    animation: wave 0.6s ease-out;
+  }
+}
+
+@keyframes wave {
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+// ===================================
+// 📱 Responsive Adjustments
+// ===================================
+@media (max-width: 374px) {
+  .floating-btn {
+    width: 48px;
+    height: 48px;
+    
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  .floating-buttons {
+    gap: var(--space-2);
+  }
+  
+  .fab-menu .fab-actions .fab-action {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+// Small screens - reduce offset
+@media (max-width: 576px) {
+  :root {
+    --floating-btn-offset: var(--space-3);
+  }
+}
+
+// ===================================
+// 🎭 Hide on Specific Pages (optional)
+// ===================================
+.no-floating-buttons {
+  .floating-buttons,
+  .floating-btn {
+    display: none;
+  }
+}
+
+// ===================================
+// ♿ Accessibility
+// ===================================
+@media (prefers-reduced-motion: reduce) {
+  .floating-btn,
+  .fab-menu .fab-actions,
+  .scroll-top-btn {
+    transition: opacity var(--duration-base) ease;
+    
+    &:hover {
+      transform: none;
+    }
+  }
+  
+  .whatsapp-btn::after,
+  .call-btn.ringing {
+    animation: none;
+  }
+  
+  .fab-menu .fab-actions .fab-action {
+    animation: none;
+  }
+}
+
+// High Contrast Mode
+@media (prefers-contrast: high) {
+  .floating-btn {
+    border: 2px solid currentColor;
+  }
+}
+
+// Screen Reader Text
+.floating-btn .sr-only {
+  @include sr-only;
+}
+
+// Keyboard Navigation Enhancement
+.floating-btn:focus-visible {
+  outline-offset: 4px;
+  
+  .btn-tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+}

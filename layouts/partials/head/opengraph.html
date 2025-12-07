@@ -1,0 +1,63 @@
+{{- /* ================================= */ -}}
+{{- /* Open Graph Tags */ -}}
+{{- /* ================================= */ -}}
+
+{{- /* Basic OG Tags */ -}}
+<meta property="og:title" content="{{ with .Params.seoTitle }}{{ . }}{{ else }}{{ .Title }}{{ end }}">
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:locale" content="{{ .Site.Language.Lang }}_{{ upper .Site.Language.Lang }}">
+
+{{- /* OG Image */ -}}
+{{ $ogImage := "" }}
+{{ if .Params.image }}
+    {{ $ogImage = .Params.image }}
+{{ else if .Site.Params.seo.ogImage }}
+    {{ $ogImage = .Site.Params.seo.ogImage }}
+{{ else }}
+    {{ $ogImage = "/images/og-image.jpg" }}
+{{ end }}
+<meta property="og:image" content="{{ absURL $ogImage }}">
+<meta property="og:image:alt" content="{{ .Title }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+{{- /* Article Specific Tags */ -}}
+{{ if .IsPage }}
+    {{ if eq .Section "cases" }}
+        <meta property="article:published_time" content="{{ .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}">
+        <meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
+        {{ with .Params.tags }}
+            {{ range . }}
+                <meta property="article:tag" content="{{ . }}">
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{- /* ================================= */ -}}
+{{- /* Twitter Card Tags */ -}}
+{{- /* ================================= */ -}}
+
+<meta name="twitter:card" content="{{ .Site.Params.seo.twitterCard | default "summary_large_image" }}">
+{{ with .Site.Params.seo.twitterSite }}
+    <meta name="twitter:site" content="{{ . }}">
+{{ end }}
+<meta name="twitter:title" content="{{ with .Params.seoTitle }}{{ . }}{{ else }}{{ .Title }}{{ end }}">
+<meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+<meta name="twitter:image" content="{{ absURL $ogImage }}">
+<meta name="twitter:image:alt" content="{{ .Title }}">
+
+{{- /* ================================= */ -}}
+{{- /* Facebook Tags */ -}}
+{{- /* ================================= */ -}}
+
+{{ with .Site.Params.social }}
+    {{ range . }}
+        {{ if eq .name "facebook" }}
+            <meta property="fb:app_id" content="{{ .appId }}">
+        {{ end }}
+    {{ end }}
+{{ end }}

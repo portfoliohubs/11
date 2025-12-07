@@ -1,0 +1,556 @@
+// ===================================
+// 🖼️ Gallery Container
+// ===================================
+.gallery {
+  width: 100%;
+  
+  // Gallery Header
+  .gallery-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+    
+    .gallery-title {
+      @include heading-base;
+      @include responsive-font(var(--text-3xl), var(--text-5xl));
+      margin-bottom: var(--space-3);
+    }
+    
+    .gallery-subtitle {
+      font-size: var(--text-lg);
+      color: var(--color-text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+  
+  // Gallery Filters
+  .gallery-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-8);
+    
+    .filter-btn {
+      padding: var(--space-2) var(--space-4);
+      background-color: var(--bg-secondary);
+      color: var(--color-text-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      cursor: pointer;
+      transition: var(--transition-base);
+      
+      &:hover {
+        background-color: var(--bg-tertiary);
+        color: var(--color-text);
+      }
+      
+      &.active {
+        background-color: var(--color-primary);
+        color: white;
+        border-color: var(--color-primary);
+      }
+    }
+  }
+}
+
+// ===================================
+// 📐 Gallery Grid
+// ===================================
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--gallery-gap);
+  
+  @include respond-to('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @include respond-to('md') {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+  
+  @include respond-to('lg') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// ===================================
+// 🎴 Gallery Item
+// ===================================
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--gallery-item-radius);
+  background-color: var(--bg-secondary);
+  cursor: pointer;
+  transition: var(--transition-base);
+  @include aspect-ratio(4, 3);
+  
+  // Image Container
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition-slow);
+    }
+  }
+  
+  // Overlay
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+    opacity: 0;
+    transition: var(--transition-base);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--space-4);
+    color: white;
+    
+    .overlay-title {
+      font-size: var(--text-lg);
+      font-weight: var(--font-bold);
+      margin-bottom: var(--space-2);
+      transform: translateY(20px);
+      transition: var(--transition-base);
+    }
+    
+    .overlay-category {
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-secondary-light);
+      margin-bottom: var(--space-2);
+      transform: translateY(20px);
+      transition: var(--transition-base);
+      transition-delay: 50ms;
+    }
+    
+    .overlay-description {
+      font-size: var(--text-sm);
+      opacity: 0.9;
+      @include line-clamp(2);
+      transform: translateY(20px);
+      transition: var(--transition-base);
+      transition-delay: 100ms;
+    }
+  }
+  
+  // Badge
+  .gallery-badge {
+    position: absolute;
+    top: var(--space-3);
+    @include end(var(--space-3));
+    background-color: var(--color-primary);
+    color: white;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    z-index: 2;
+    
+    &.badge-featured {
+      background-color: #FFD700;
+      color: var(--color-dark);
+    }
+    
+    &.badge-new {
+      background-color: var(--color-success);
+    }
+  }
+  
+  // Hover Effects
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    
+    .gallery-image img {
+      transform: scale(1.1);
+    }
+    
+    .gallery-overlay {
+      opacity: 1;
+      
+      .overlay-title,
+      .overlay-category,
+      .overlay-description {
+        transform: translateY(0);
+      }
+    }
+  }
+  
+  // Focus State
+  &:focus-visible {
+    @include focus-ring;
+    outline-offset: 4px;
+  }
+}
+
+// ===================================
+// 🔍 Lightbox Modal
+// ===================================
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: var(--z-modal);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  
+  &.active {
+    display: flex;
+    @include fade-in;
+  }
+  
+  // Close Button
+  .lightbox-close {
+    position: absolute;
+    top: var(--space-4);
+    @include end(var(--space-4));
+    width: 48px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: white;
+    font-size: var(--text-2xl);
+    cursor: pointer;
+    transition: var(--transition-base);
+    @include flex-center;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+  }
+  
+  // Navigation Buttons
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: white;
+    font-size: var(--text-xl);
+    cursor: pointer;
+    transition: var(--transition-base);
+    @include flex-center;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    &.prev {
+      @include start(var(--space-4));
+    }
+    
+    &.next {
+      @include end(var(--space-4));
+    }
+  }
+  
+  // Content Container
+  .lightbox-content {
+    max-width: 1200px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    
+    @include respond-to('lg') {
+      flex-direction: row;
+      gap: var(--space-8);
+    }
+  }
+  
+  // Image Container
+  .lightbox-image {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    img {
+      max-width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+    }
+  }
+  
+  // Info Panel
+  .lightbox-info {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    color: white;
+    overflow-y: auto;
+    @include custom-scrollbar(6px, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
+    
+    @include respond-to('lg') {
+      width: 350px;
+      max-height: 70vh;
+    }
+    
+    .info-title {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+      margin-bottom: var(--space-3);
+    }
+    
+    .info-category {
+      display: inline-block;
+      background-color: var(--color-primary);
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      font-size: var(--text-xs);
+      font-weight: var(--font-bold);
+      text-transform: uppercase;
+      margin-bottom: var(--space-4);
+    }
+    
+    .info-description {
+      font-size: var(--text-base);
+      line-height: var(--leading-relaxed);
+      margin-bottom: var(--space-4);
+      opacity: 0.9;
+    }
+    
+    .info-meta {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      padding-top: var(--space-4);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        font-size: var(--text-sm);
+        
+        svg {
+          width: 18px;
+          height: 18px;
+          color: var(--color-secondary-light);
+        }
+        
+        .meta-label {
+          font-weight: var(--font-semibold);
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+}
+
+// ===================================
+// 📊 Before/After Comparison Slider
+// ===================================
+.ba-comparison {
+  position: relative;
+  width: 100%;
+  @include aspect-ratio(16, 9);
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  user-select: none;
+  
+  .ba-image {
+    position: absolute;
+    inset: 0;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    &.before {
+      z-index: 1;
+    }
+    
+    &.after {
+      z-index: 2;
+      clip-path: inset(0 50% 0 0);
+    }
+  }
+  
+  // Slider Handle
+  .ba-slider {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4px;
+    height: 100%;
+    background-color: white;
+    z-index: 3;
+    cursor: ew-resize;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 48px;
+      height: 48px;
+      background-color: white;
+      border-radius: 50%;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    &::after {
+      content: '⟷';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: var(--text-xl);
+      color: var(--color-primary);
+      z-index: 1;
+    }
+  }
+  
+  // Labels
+  .ba-label {
+    position: absolute;
+    top: var(--space-4);
+    padding: var(--space-2) var(--space-4);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    border-radius: var(--radius-base);
+    z-index: 4;
+    
+    &.before-label {
+      @include start(var(--space-4));
+      background-color: var(--color-error);
+    }
+    
+    &.after-label {
+      @include end(var(--space-4));
+      background-color: var(--color-success);
+    }
+  }
+}
+
+// ===================================
+// 🔄 Loading State
+// ===================================
+.gallery-loading {
+  @include flex-center;
+  min-height: 400px;
+  
+  .spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--color-light-gray);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+// ===================================
+// 📭 Empty State
+// ===================================
+.gallery-empty {
+  text-align: center;
+  padding: var(--space-16);
+  color: var(--color-text-muted);
+  
+  .empty-icon {
+    font-size: 4rem;
+    margin-bottom: var(--space-4);
+    opacity: 0.5;
+  }
+  
+  .empty-title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+  
+  .empty-message {
+    font-size: var(--text-base);
+  }
+}
+
+// ===================================
+// 📱 Responsive Adjustments
+// ===================================
+@media (max-width: 767px) {
+  .lightbox-nav,
+  .lightbox-close {
+    width: 40px;
+    height: 40px;
+    font-size: var(--text-lg);
+  }
+  
+  .lightbox-info {
+    max-height: 40vh;
+  }
+  
+  .ba-comparison .ba-slider::before {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+// ===================================
+// ♿ Accessibility
+// ===================================
+@media (prefers-reduced-motion: reduce) {
+  .gallery-item:hover {
+    transform: none;
+    
+    .gallery-image img {
+      transform: none;
+    }
+  }
+  
+  .lightbox {
+    animation: none;
+  }
+}
+
+// Keyboard Navigation
+.gallery-item:focus-visible,
+.lightbox-close:focus-visible,
+.lightbox-nav:focus-visible {
+  @include focus-ring;
+}

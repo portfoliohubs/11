@@ -1,0 +1,59 @@
+{{- /* ================================= */ -}}
+{{- /* Dynamic Meta Tags Generation */ -}}
+{{- /* ================================= */ -}}
+
+{{- /* Robots Meta */ -}}
+{{ if .Params.noindex }}
+    <meta name="robots" content="noindex, nofollow">
+{{ else }}
+    <meta name="robots" content="index, follow">
+{{ end }}
+
+{{- /* Language Alternatives */ -}}
+{{ if .IsTranslated }}
+    {{ range .Translations }}
+        <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}">
+    {{ end }}
+{{ end }}
+
+{{- /* Generator */ -}}
+<meta name="generator" content="Hugo {{ hugo.Version }}">
+
+{{- /* Mobile Web App Capable */ -}}
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="{{ .Site.Title }}">
+
+{{- /* Format Detection */ -}}
+<meta name="format-detection" content="telephone=yes">
+<meta name="format-detection" content="date=no">
+<meta name="format-detection" content="address=no">
+<meta name="format-detection" content="email=no">
+
+{{- /* Google Site Verification */ -}}
+{{ with .Site.Params.seo.verification.google }}
+    <meta name="google-site-verification" content="{{ . }}">
+{{ end }}
+
+{{- /* Bing Site Verification */ -}}
+{{ with .Site.Params.seo.verification.bing }}
+    <meta name="msvalidate.01" content="{{ . }}">
+{{ end }}
+
+{{- /* Yandex Site Verification */ -}}
+{{ with .Site.Params.seo.verification.yandex }}
+    <meta name="yandex-verification" content="{{ . }}">
+{{ end }}
+
+{{- /* Geo Tags for Local Business */ -}}
+{{ with .Site.Params.doctor.address }}
+    <meta name="geo.region" content="EG-SHR">
+    <meta name="geo.placename" content="{{ . }}">
+{{ end }}
+
+{{- /* Rating (for medical content) */ -}}
+<meta name="rating" content="general">
+
+{{- /* Color Scheme */ -}}
+<meta name="color-scheme" content="light dark">

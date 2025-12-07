@@ -1,0 +1,59 @@
+{{- /* ================================= */ -}}
+{{- /* Skills & Services Section */ -}}
+{{- /* ================================= */ -}}
+
+{{ with .Site.Data.settings.skills }}
+<section id="skills" class="section skills-section">
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">{{ .title | default "التخصصات والخدمات" }}</h2>
+            <p class="section-subtitle">{{ .subtitle | default "نقدم مجموعة شاملة من خدمات طب الأسنان المتقدمة" }}</p>
+        </div>
+        
+        <div class="skills-grid">
+            {{ range .items }}
+            <div class="skill-card animate-on-scroll">
+                <div class="skill-icon" style="background-color: {{ .color }}20; color: {{ .color }};">
+                    {{ partial "icons/skill.html" (dict "icon" .icon) }}
+                </div>
+                <h3 class="skill-title">{{ .title }}</h3>
+                <p class="skill-description">{{ .description }}</p>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+</section>
+{{ end }}
+
+<style>
+.section-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+}
+
+.section-title {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-extrabold);
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+}
+
+@media (min-width: 768px) {
+    .section-title {
+        font-size: var(--text-4xl);
+    }
+}
+
+@media (min-width: 992px) {
+    .section-title {
+        font-size: var(--text-5xl);
+    }
+}
+
+.section-subtitle {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    max-width: 700px;
+    margin: 0 auto;
+}
+</style>

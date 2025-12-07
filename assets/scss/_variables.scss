@@ -1,0 +1,334 @@
+// ===================================
+// 🎨 نظام الألوان (Color System)
+// ===================================
+
+// الألوان الأساسية - Light Mode
+:root {
+  // Primary Colors (أزرق طبي)
+  --color-primary: #0077BE;
+  --color-primary-light: #00A8E8;
+  --color-primary-dark: #003459;
+  --color-primary-rgb: 0, 119, 190;
+  
+  // Secondary Colors
+  --color-secondary: #48CAE4;
+  --color-secondary-light: #90E0EF;
+  --color-secondary-dark: #0096C7;
+  
+  // Accent Colors
+  --color-accent: #00B4D8;
+  --color-accent-light: #ADE8F4;
+  
+  // Neutral Colors
+  --color-white: #FFFFFF;
+  --color-light: #F8F9FA;
+  --color-light-gray: #E9ECEF;
+  --color-gray: #CED4DA;
+  --color-dark-gray: #6C757D;
+  --color-dark: #212529;
+  
+  // Text Colors
+  --color-text: #212529;
+  --color-text-secondary: #6C757D;
+  --color-text-muted: #ADB5BD;
+  --color-text-inverse: #FFFFFF;
+  
+  // Background Colors
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8F9FA;
+  --bg-tertiary: #E9ECEF;
+  
+  // Border & Divider
+  --color-border: #DEE2E6;
+  --color-divider: rgba(0, 0, 0, 0.1);
+  
+  // Status Colors
+  --color-success: #28A745;
+  --color-info: #17A2B8;
+  --color-warning: #FFC107;
+  --color-error: #DC3545;
+  
+  // Shadows
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.20);
+  
+  // Overlay
+  --overlay-light: rgba(255, 255, 255, 0.95);
+  --overlay-dark: rgba(0, 0, 0, 0.6);
+}
+
+// ===================================
+// 🌙 Dark Mode Colors
+// ===================================
+[data-theme="dark"] {
+  // Primary Colors (كحلي غامق)
+  --color-primary: #00A8E8;
+  --color-primary-light: #48CAE4;
+  --color-primary-dark: #0077BE;
+  
+  // Secondary Colors
+  --color-secondary: #90E0EF;
+  --color-secondary-light: #ADE8F4;
+  --color-secondary-dark: #48CAE4;
+  
+  // Accent Colors
+  --color-accent: #48CAE4;
+  --color-accent-light: #90E0EF;
+  
+  // Neutral Colors
+  --color-white: #1A1D29;
+  --color-light: #252936;
+  --color-light-gray: #2F3441;
+  --color-gray: #3D4452;
+  --color-dark-gray: #8B92A8;
+  --color-dark: #E9ECEF;
+  
+  // Text Colors
+  --color-text: #E9ECEF;
+  --color-text-secondary: #ADB5BD;
+  --color-text-muted: #6C757D;
+  --color-text-inverse: #212529;
+  
+  // Background Colors
+  --bg-primary: #1A1D29;
+  --bg-secondary: #252936;
+  --bg-tertiary: #2F3441;
+  
+  // Border & Divider
+  --color-border: #3D4452;
+  --color-divider: rgba(255, 255, 255, 0.1);
+  
+  // Status Colors (أقل سطوعاً في الوضع الداكن)
+  --color-success: #3DD365;
+  --color-info: #36C9DC;
+  --color-warning: #FFD93D;
+  --color-error: #FF6B6B;
+  
+  // Shadows (أغمق)
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
+  
+  // Overlay
+  --overlay-light: rgba(26, 29, 41, 0.95);
+  --overlay-dark: rgba(0, 0, 0, 0.8);
+}
+
+// ===================================
+// 🔤 Typography System
+// ===================================
+:root {
+  // Font Families
+  --font-primary: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+  --font-heading: 'Tajawal', 'Cairo', sans-serif;
+  --font-monospace: 'Courier New', monospace;
+  
+  // Font Sizes (Mobile First)
+  --text-xs: 0.75rem;      // 12px
+  --text-sm: 0.875rem;     // 14px
+  --text-base: 1rem;       // 16px
+  --text-lg: 1.125rem;     // 18px
+  --text-xl: 1.25rem;      // 20px
+  --text-2xl: 1.5rem;      // 24px
+  --text-3xl: 1.875rem;    // 30px
+  --text-4xl: 2.25rem;     // 36px
+  --text-5xl: 3rem;        // 48px
+  --text-6xl: 3.75rem;     // 60px
+  
+  // Line Heights
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+  
+  // Font Weights
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+  
+  // Letter Spacing
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+}
+
+// ===================================
+// 📏 Spacing System
+// ===================================
+:root {
+  --space-0: 0;
+  --space-1: 0.25rem;    // 4px
+  --space-2: 0.5rem;     // 8px
+  --space-3: 0.75rem;    // 12px
+  --space-4: 1rem;       // 16px
+  --space-5: 1.25rem;    // 20px
+  --space-6: 1.5rem;     // 24px
+  --space-8: 2rem;       // 32px
+  --space-10: 2.5rem;    // 40px
+  --space-12: 3rem;      // 48px
+  --space-16: 4rem;      // 64px
+  --space-20: 5rem;      // 80px
+  --space-24: 6rem;      // 96px
+  --space-32: 8rem;      // 128px
+}
+
+// ===================================
+// 🔲 Border Radius
+// ===================================
+:root {
+  --radius-none: 0;
+  --radius-sm: 0.25rem;    // 4px
+  --radius-base: 0.5rem;   // 8px
+  --radius-md: 0.75rem;    // 12px
+  --radius-lg: 1rem;       // 16px
+  --radius-xl: 1.5rem;     // 24px
+  --radius-2xl: 2rem;      // 32px
+  --radius-full: 9999px;
+}
+
+// ===================================
+// ⏱️ Transitions & Animations
+// ===================================
+:root {
+  // Durations
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 350ms;
+  --duration-slower: 500ms;
+  
+  // Easing
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  // Transitions
+  --transition-base: all var(--duration-base) var(--ease-in-out);
+  --transition-fast: all var(--duration-fast) var(--ease-out);
+  --transition-slow: all var(--duration-slow) var(--ease-in-out);
+  --transition-colors: color var(--duration-base) var(--ease-in-out),
+                       background-color var(--duration-base) var(--ease-in-out),
+                       border-color var(--duration-base) var(--ease-in-out);
+}
+
+// ===================================
+// 📱 Breakpoints (للـ Mixins)
+// ===================================
+$breakpoints: (
+  'xs': 0,
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px,
+  'xl': 1200px,
+  'xxl': 1400px
+);
+
+// ===================================
+// 🔢 Z-Index Layers
+// ===================================
+:root {
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-floating: 600;
+  --z-tooltip: 700;
+  --z-toast: 800;
+}
+
+// ===================================
+// 📐 Container & Layout
+// ===================================
+:root {
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+  
+  // Padding
+  --container-padding: var(--space-4);
+  --section-padding-y: var(--space-16);
+  --section-padding-x: var(--space-4);
+}
+
+// ===================================
+// 🎭 Effects & Filters
+// ===================================
+:root {
+  // Blur
+  --blur-sm: 4px;
+  --blur-base: 8px;
+  --blur-md: 12px;
+  --blur-lg: 16px;
+  --blur-xl: 24px;
+  
+  // Opacity
+  --opacity-0: 0;
+  --opacity-25: 0.25;
+  --opacity-50: 0.5;
+  --opacity-75: 0.75;
+  --opacity-100: 1;
+}
+
+// ===================================
+// 🎯 Specific Component Variables
+// ===================================
+:root {
+  // Header
+  --header-height: 70px;
+  --header-bg: var(--bg-primary);
+  --header-shadow: var(--shadow-sm);
+  
+  // Bottom Navigation
+  --bottom-nav-height: 60px;
+  --bottom-nav-bg: var(--bg-primary);
+  --bottom-nav-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  
+  // Floating Buttons
+  --floating-btn-size: 56px;
+  --floating-btn-offset: var(--space-4);
+  --floating-btn-shadow: var(--shadow-lg);
+  
+  // Cards
+  --card-bg: var(--bg-primary);
+  --card-border: 1px solid var(--color-border);
+  --card-radius: var(--radius-lg);
+  --card-shadow: var(--shadow-md);
+  --card-padding: var(--space-6);
+  
+  // Gallery
+  --gallery-gap: var(--space-4);
+  --gallery-columns: 2;
+  --gallery-item-radius: var(--radius-md);
+}
+
+// Dark Mode Adjustments
+[data-theme="dark"] {
+  --header-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --bottom-nav-shadow: 0 -2px 8px rgba(0, 0, 0, 0.5);
+  --floating-btn-shadow: var(--shadow-xl);
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+// ===================================
+// 🖼️ Image & Media
+// ===================================
+:root {
+  --image-radius: var(--radius-md);
+  --image-overlay: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+}

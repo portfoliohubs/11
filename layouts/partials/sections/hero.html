@@ -1,0 +1,100 @@
+{{- /* ================================= */ -}}
+{{- /* Hero Section */ -}}
+{{- /* ================================= */ -}}
+
+{{ with .Site.Data.settings.hero }}
+<section class="hero" id="hero" style="background-image: url('{{ .backgroundImage | default "/images/hero-bg.jpg" }}');">
+    <div class="hero-content">
+        <h1 class="hero-title">{{ .title | default $.Site.Params.doctor.name }}</h1>
+        <p class="hero-subtitle">{{ .subtitle | default $.Site.Params.doctor.title }}</p>
+        <p class="hero-description">{{ .description | default "ابتسامتك هي بوابتك للثقة والجمال" }}</p>
+        
+        <div class="hero-actions">
+            <a href="{{ .ctaLink | default "#contact" }}" class="btn btn-primary btn-xl">
+                {{ .ctaText | default "احجز استشارة مجانية" }}
+            </a>
+            {{ with .secondaryCtaText }}
+            <a href="{{ $.Site.Data.settings.hero.secondaryCtaLink | default "#gallery" }}" class="btn btn-light btn-xl">
+                {{ . }}
+            </a>
+            {{ end }}
+        </div>
+        
+        {{- /* Hero Stats */ -}}
+        {{ if .showStats }}
+        <div class="hero-stats">
+            {{ range .stats }}
+            <div class="stat-item">
+                <div class="stat-icon">
+                    {{ partial "icons/stat.html" (dict "icon" .icon) }}
+                </div>
+                <div class="stat-number">{{ .number }}</div>
+                <div class="stat-label">{{ .label }}</div>
+            </div>
+            {{ end }}
+        </div>
+        {{ end }}
+    </div>
+</section>
+{{ end }}
+
+<style>
+.hero {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.highlight-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-4);
+    transition: var(--transition-base);
+}
+
+.highlight-item:hover {
+    transform: translateX(-8px);
+    box-shadow: var(--shadow-md);
+}
+
+.highlight-item svg {
+    width: 40px;
+    height: 40px;
+    color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+.highlight-item h4 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+}
+
+.highlight-item p {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+.about-actions {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-top: var(--space-6);
+}
+
+@media (max-width: 767px) {
+    .about-actions {
+        flex-direction: column;
+    }
+    
+    .about-actions .btn {
+        width: 100%;
+    }
+}
+</style>

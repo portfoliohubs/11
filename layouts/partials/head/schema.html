@@ -1,0 +1,179 @@
+{{- /* ================================= */ -}}
+{{- /* Schema.org JSON-LD Structured Data */ -}}
+{{- /* ================================= */ -}}
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "{{ .Site.Params.seo.structuredData.type | default "Dentist" }}",
+    "name": "{{ .Site.Params.doctor.name }}",
+    "image": "{{ absURL .Site.Params.doctor.image }}",
+    "url": "{{ .Site.BaseURL }}",
+    "telephone": "{{ .Site.Params.doctor.phone }}",
+    "email": "{{ .Site.Params.doctor.email }}",
+    "priceRange": "{{ .Site.Params.seo.structuredData.priceRange | default "$$" }}",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "{{ .Site.Params.doctor.address }}",
+        "addressLocality": "القاهرة",
+        "addressRegion": "مصر",
+        "addressCountry": "EG"
+    },
+    {{ with .Site.Params.seo.structuredData.openingHours }}
+    "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Saturday",
+            "Sunday"
+        ],
+        "opens": "09:00",
+        "closes": "21:00"
+    },
+    {{ end }}
+    "sameAs": [
+        {{ $links := slice }}
+        {{ range .Site.Params.social }}
+            {{ $links = $links | append .url }}
+        {{ end }}
+        {{ delimit $links ",\n        " | safeJS }}
+    ]
+}
+</script>
+
+{{- /* WebSite Schema */ -}}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{{ .Site.Title }}",
+    "url": "{{ .Site.BaseURL }}",
+    "description": "{{ .Site.Params.description }}",
+    "inLanguage": "{{ .Site.Language.Lang }}",
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "{{ .Site.BaseURL }}search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+    }
+}
+</script>
+
+{{- /* Person Schema for Doctor */ -}}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "{{ .Site.Params.doctor.name }}",
+    "jobTitle": "{{ .Site.Params.doctor.title }}",
+    "worksFor": {
+        "@type": "Organization",
+        "name": "{{ .Site.Title }}"
+    },
+    "image": "{{ absURL .Site.Params.doctor.image }}",
+    "telephone": "{{ .Site.Params.doctor.phone }}",
+    "email": "{{ .Site.Params.doctor.email }}",
+    "url": "{{ .Site.BaseURL }}",
+    "sameAs": [
+        {{ $links := slice }}
+        {{ range .Site.Params.social }}
+            {{ $links = $links | append .url }}
+        {{ end }}
+        {{ delimit $links ",\n        " | safeJS }}
+    ]
+}
+</script>
+
+{{- /* Medical Business Schema */ -}}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    "@id": "{{ .Site.BaseURL }}#medicalbusiness",
+    "name": "{{ .Site.Title }}",
+    "description": "{{ .Site.Params.description }}",
+    "url": "{{ .Site.BaseURL }}",
+    "logo": {
+        "@type": "ImageObject",
+        "url": "{{ absURL "/images/logo.svg" }}"
+    },
+    "image": "{{ absURL .Site.Params.doctor.image }}",
+    "telephone": "{{ .Site.Params.doctor.phone }}",
+    "email": "{{ .Site.Params.doctor.email }}",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "{{ .Site.Params.doctor.address }}",
+        "addressLocality": "القاهرة",
+        "addressCountry": "EG"
+    },
+    "medicalSpecialty": "Dentistry",
+    "priceRange": "{{ .Site.Params.seo.structuredData.priceRange | default "$$" }}"
+}
+</script>
+
+{{- /* Breadcrumb Schema */ -}}
+{{ if not .IsHome }}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "الرئيسية",
+            "item": "{{ .Site.BaseURL }}"
+        }
+        {{ if .Section }},
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{{ .Section | humanize }}",
+            "item": "{{ .Site.BaseURL }}{{ .Section }}"
+        }
+        {{ end }}
+        {{ if .IsPage }},
+        {
+            "@type": "ListItem",
+            "position": {{ if .Section }}3{{ else }}2{{ end }},
+            "name": "{{ .Title }}",
+            "item": "{{ .Permalink }}"
+        }
+        {{ end }}
+    ]
+}
+</script>
+{{ end }}
+
+{{- /* Article Schema for Case Studies */ -}}
+{{ if eq .Section "cases" }}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "headline": "{{ .Title }}",
+    "description": "{{ .Description }}",
+    "datePublished": "{{ .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}",
+    "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
+    "author": {
+        "@type": "Person",
+        "name": "{{ .Site.Params.doctor.name }}"
+    },
+    "image": {
+        "@type": "ImageObject",
+        {{ with .Params.images.after }}
+        "url": "{{ . | absURL }}"
+        {{ end }}
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ .Permalink }}"
+    }
+}
+</script>
+{{ end }}

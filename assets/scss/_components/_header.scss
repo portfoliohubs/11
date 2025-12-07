@@ -1,0 +1,433 @@
+// ===================================
+// 🔝 Header Container
+// ===================================
+.header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: var(--header-height);
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--header-shadow);
+  z-index: var(--z-sticky);
+  transition: var(--transition-base);
+  
+  // Scrolled State
+  &.scrolled {
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.95);
+    
+    [data-theme="dark"] & {
+      background-color: rgba(26, 29, 41, 0.95);
+    }
+  }
+}
+
+// ===================================
+// 📦 Header Inner Container
+// ===================================
+.header-container {
+  @include container;
+  height: 100%;
+  @include flex-between;
+  gap: var(--space-4);
+}
+
+// ===================================
+// 🏷️ Logo
+// ===================================
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  transition: var(--transition-base);
+  
+  &:hover {
+    opacity: 0.8;
+  }
+  
+  .logo-image {
+    height: 40px;
+    width: auto;
+    
+    @include respond-to('md') {
+      height: 50px;
+    }
+  }
+  
+  .logo-text {
+    display: none;
+    
+    @include respond-to('md') {
+      display: block;
+    }
+    
+    .logo-title {
+      font-size: var(--text-lg);
+      font-weight: var(--font-bold);
+      color: var(--color-text);
+      line-height: 1.2;
+    }
+    
+    .logo-subtitle {
+      font-size: var(--text-xs);
+      color: var(--color-text-secondary);
+    }
+  }
+}
+
+// ===================================
+// 🧭 Navigation
+// ===================================
+.header-nav {
+  display: none;
+  
+  @include respond-to('lg') {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  
+  .nav-link {
+    position: relative;
+    padding: var(--space-2) var(--space-4);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    border-radius: var(--radius-base);
+    transition: var(--transition-base);
+    white-space: nowrap;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 50%;
+      left: 50%;
+      height: 2px;
+      background-color: var(--color-primary);
+      transition: var(--transition-base);
+    }
+    
+    &:hover {
+      color: var(--color-primary);
+      background-color: var(--bg-secondary);
+      
+      &::after {
+        right: var(--space-4);
+        left: var(--space-4);
+      }
+    }
+    
+    &.active {
+      color: var(--color-primary);
+      
+      &::after {
+        right: var(--space-4);
+        left: var(--space-4);
+      }
+    }
+    
+    @include focus-ring;
+  }
+}
+
+// ===================================
+// 🎛️ Header Actions
+// ===================================
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+// ===================================
+// 🌓 Dark Mode Toggle
+// ===================================
+.theme-toggle {
+  position: relative;
+  width: 60px;
+  height: 32px;
+  background-color: var(--bg-tertiary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition-base);
+  @include flex-center;
+  
+  &:hover {
+    background-color: var(--bg-secondary);
+    border-color: var(--color-primary);
+  }
+  
+  .toggle-icon {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    transition: var(--transition-base);
+    @include flex-center;
+    color: white;
+    font-size: var(--text-sm);
+    
+    @include start(3px);
+    
+    [data-theme="dark"] & {
+      @include start(calc(100% - 27px));
+    }
+  }
+  
+  @include focus-ring;
+}
+
+// ===================================
+// 🍔 Mobile Menu Toggle
+// ===================================
+.mobile-menu-toggle {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  @include flex-center;
+  flex-direction: column;
+  gap: 5px;
+  
+  @include respond-to('lg') {
+    display: none;
+  }
+  
+  span {
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-text);
+    transition: var(--transition-base);
+    border-radius: var(--radius-sm);
+  }
+  
+  &.active {
+    span:nth-child(1) {
+      transform: rotate(45deg) translate(7px, 7px);
+    }
+    
+    span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    
+    span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+  }
+  
+  @include focus-ring;
+}
+
+// ===================================
+// 📱 Mobile Menu
+// ===================================
+.mobile-menu {
+  position: fixed;
+  top: var(--header-height);
+  right: 0;
+  width: 100%;
+  max-width: 320px;
+  height: calc(100vh - var(--header-height));
+  background-color: var(--bg-primary);
+  border-left: 1px solid var(--color-border);
+  box-shadow: var(--shadow-xl);
+  padding: var(--space-6);
+  transform: translateX(100%);
+  transition: transform var(--duration-base) var(--ease-in-out);
+  z-index: var(--z-fixed);
+  overflow-y: auto;
+  @include custom-scrollbar;
+  
+  [dir="rtl"] & {
+    right: auto;
+    left: 0;
+    border-left: none;
+    border-right: 1px solid var(--color-border);
+    transform: translateX(-100%);
+  }
+  
+  &.active {
+    transform: translateX(0);
+  }
+  
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    
+    .nav-link {
+      padding: var(--space-4);
+      color: var(--color-text);
+      text-decoration: none;
+      font-size: var(--text-lg);
+      font-weight: var(--font-medium);
+      border-radius: var(--radius-base);
+      transition: var(--transition-base);
+      border: 1px solid transparent;
+      
+      &:hover {
+        background-color: var(--bg-secondary);
+        border-color: var(--color-border);
+      }
+      
+      &.active {
+        background-color: var(--color-primary);
+        color: white;
+      }
+    }
+  }
+  
+  .mobile-menu-footer {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+    
+    .social-links {
+      display: flex;
+      gap: var(--space-3);
+      justify-content: center;
+      
+      a {
+        width: 40px;
+        height: 40px;
+        @include flex-center;
+        background-color: var(--bg-secondary);
+        color: var(--color-text-secondary);
+        border-radius: var(--radius-lg);
+        transition: var(--transition-base);
+        
+        &:hover {
+          background-color: var(--color-primary);
+          color: white;
+          transform: translateY(-2px);
+        }
+        
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+}
+
+// ===================================
+// 🎭 Menu Overlay
+// ===================================
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: calc(var(--z-fixed) - 1);
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition-base);
+  
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  @include respond-to('lg') {
+    display: none;
+  }
+}
+
+// ===================================
+// 📞 CTA Button in Header
+// ===================================
+.header-cta {
+  display: none;
+  
+  @include respond-to('lg') {
+    display: inline-flex;
+  }
+  
+  .btn {
+    white-space: nowrap;
+  }
+}
+
+// ===================================
+// 🔔 Notification Badge
+// ===================================
+.notification-badge {
+  position: absolute;
+  top: -4px;
+  @include end(-4px);
+  width: 18px;
+  height: 18px;
+  background-color: var(--color-error);
+  color: white;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: var(--font-bold);
+  @include flex-center;
+  border: 2px solid var(--bg-primary);
+}
+
+// ===================================
+// 📱 Responsive Adjustments
+// ===================================
+@media (max-width: 374px) {
+  .header-logo .logo-image {
+    height: 35px;
+  }
+  
+  .theme-toggle {
+    width: 50px;
+    height: 28px;
+    
+    .toggle-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+// ===================================
+// ♿ Accessibility
+// ===================================
+// Skip to main content link
+.skip-to-main {
+  position: absolute;
+  top: var(--space-2);
+  @include start(var(--space-2));
+  background-color: var(--color-primary);
+  color: white;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-base);
+  text-decoration: none;
+  font-weight: var(--font-semibold);
+  z-index: calc(var(--z-modal) + 1);
+  transform: translateY(-200%);
+  transition: transform var(--duration-base) var(--ease-out);
+  
+  &:focus {
+    transform: translateY(0);
+  }
+}
+
+// Reduced Motion
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu,
+  .menu-overlay,
+  .nav-link::after {
+    transition: none;
+  }
+  
+  .mobile-menu-toggle span {
+    transition: none;
+  }
+}

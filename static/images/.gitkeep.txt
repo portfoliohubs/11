@@ -1,0 +1,6 @@
+# This file ensures the images directory is tracked by Git
+# Place your images here:
+# - logo.svg
+# - doctor-profile.jpg
+# - hero-bg.jpg
+# - og-image.jpg

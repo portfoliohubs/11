@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}" dir="{{ .Site.Language.LanguageDirection }}" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    {{- /* Primary Meta Tags */ -}}
+    <title>{{ block "title" . }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    <meta name="title" content="{{ block "meta_title" . }}{{ .Title }} | {{ .Site.Title }}{{ end }}">
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    <meta name="author" content="{{ .Site.Params.author }}">
+    <meta name="keywords" content="{{ with .Params.keywords }}{{ delimit . ", " }}{{ else }}{{ .Site.Params.seo.keywords }}{{ end }}">
+    
+    {{- /* Canonical URL */ -}}
+    <link rel="canonical" href="{{ .Permalink }}">
+    
+    {{- /* RSS Feed */ -}}
+    {{ with .OutputFormats.Get "rss" -}}
+        {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+    {{ end -}}
+    
+    {{- /* Favicon */ -}}
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="apple-touch-icon" href="/images/logo.svg">
+    
+    {{- /* Partials for Meta Tags */ -}}
+    {{ partial "head/meta.html" . }}
+    {{ partial "head/opengraph.html" . }}
+    {{ partial "head/schema.html" . }}
+    
+    {{- /* Preconnect to External Domains */ -}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    {{- /* Google Fonts - Cairo & Tajawal */ -}}
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Tajawal:wght@400;500;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    {{- /* Main SCSS */ -}}
+    {{ $options := (dict "targetPath" "css/main.css" "outputStyle" "compressed" "enableSourceMap" false) }}
+    {{ $scss := resources.Get "scss/main.scss" | toCSS $options | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $scss.RelPermalink }}" integrity="{{ $scss.Data.Integrity }}">
+    
+    {{- /* Preload Critical Assets */ -}}
+    <link rel="preload" href="{{ $scss.RelPermalink }}" as="style">
+    {{ with resources.Get "images/doctor-profile.jpg" }}
+        {{ $img := . | fingerprint }}
+        <link rel="preload" href="{{ $img.RelPermalink }}" as="image">
+    {{ end }}
+    
+    {{- /* Security Headers */ -}}
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    {{- /* Theme Color */ -}}
+    <meta name="theme-color" content="{{ .Site.Params.colors.primary }}" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="{{ .Site.Params.colors.dark }}" media="(prefers-color-scheme: dark)">
+    
+    {{- /* PWA Manifest (optional) */ -}}
+    <link rel="manifest" href="/manifest.json">
+    
+    {{- /* Inline Critical CSS for Dark Mode (prevents flash) */ -}}
+    <script>
+        // Check localStorage and apply theme before page renders
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    
+    {{- /* Additional Head Content from Pages */ -}}
+    {{ block "head" . }}{{ end }}
+</head>
+
+<body>
+    {{- /* Skip to Main Content (Accessibility) */ -}}
+    <a href="#main-content" class="skip-to-main">تخطي إلى المحتوى الرئيسي</a>
+    
+    {{- /* Header */ -}}
+    {{ partial "header.html" . }}
+    
+    {{- /* Main Content */ -}}
+    <main id="main-content" role="main">
+        {{ block "main" . }}{{ end }}
+    </main>
+    
+    {{- /* Footer */ -}}
+    {{ partial "footer.html" . }}
+    
+    {{- /* Bottom Navigation (Mobile Only) */ -}}
+    {{ if .Site.Data.settings.features.bottomNav }}
+        {{ partial "bottom-nav.html" . }}
+    {{ end }}
+    
+    {{- /* Floating Buttons */ -}}
+    {{ partial "floating-buttons.html" . }}
+    
+    {{- /* Back to Top Button */ -}}
+    <button class="back-to-top" aria-label="العودة للأعلى">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
+    
+    {{- /* JavaScript Files */ -}}
+    
+    {{- /* Dark Mode Script */ -}}
+    {{ $darkMode := resources.Get "js/dark-mode.js" | js.Build | minify | fingerprint }}
+    <script src="{{ $darkMode.RelPermalink }}" defer></script>
+    
+    {{- /* Smooth Scroll Script */ -}}
+    {{ $smoothScroll := resources.Get "js/smooth-scroll.js" | js.Build | minify | fingerprint }}
+    <script src="{{ $smoothScroll.RelPermalink }}" defer></script>
+    
+    {{- /* Gallery Script */ -}}
+    {{ if eq .Section "cases" }}
+        {{ $gallery := resources.Get "js/gallery.js" | js.Build | minify | fingerprint }}
+        <script src="{{ $gallery.RelPermalink }}" defer></script>
+    {{ end }}
+    
+    {{- /* PDF Generator (html2pdf.js from CDN) */ -}}
+    {{ if .Site.Data.settings.downloadCV.enabled }}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        {{ $pdfGen := resources.Get "js/pdf-generator.js" | js.Build | minify | fingerprint }}
+        <script src="{{ $pdfGen.RelPermalink }}" defer></script>
+    {{ end }}
+    
+    {{- /* Additional Scripts from Pages */ -}}
+    {{ block "scripts" . }}{{ end }}
+    
+    {{- /* Service Worker Registration (optional) */ -}}
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // navigator.registerServiceWorker('/sw.js'); // Uncomment to enable
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+{{- /* ================================= */ -}}
+{{- /* Before/After Gallery Section */ -}}
+{{- /* ================================= */ -}}
+
+{{ with .Site.Data.settings.gallery }}
+<section id="gallery" class="section gallery-section">
+    <div class="container">
+        <div class="gallery-header animate-on-scroll">
+            <h2 class="gallery-title">{{ .title | default "حالات سابقة - قبل وبعد" }}</h2>
+            <p class="gallery-subtitle">{{ .subtitle | default "شاهد النتائج الحقيقية التي حققناها لمرضانا" }}</p>
+        </div>
+        
+        {{- /* Gallery Filters */ -}}
+        {{ if .filterEnabled }}
+        <div class="gallery-filters animate-on-scroll">
+            {{ range .filters }}
+            <button class="filter-btn{{ if eq .value "all" }} active{{ end }}" 
+                    data-filter="{{ .value }}">
+                {{ .label }}
+            </button>
+            {{ end }}
+        </div>
+        {{ end }}
+        
+        {{- /* Gallery Grid */ -}}
+        <div class="gallery-grid">
+            {{- /* Get featured cases from cases section */ -}}
+            {{ $cases := where .Site.RegularPages "Section" "cases" }}
+            {{ $featuredCases := where $cases "Params.featured" true }}
+            {{ $displayCases := first (.perPage | default 6) $featuredCases }}
+            
+            {{ range $displayCases }}
+                {{ $beforeImg := .Resources.GetMatch (.Params.images.before | default "before.jpg") }}
+                {{ $afterImg := .Resources.GetMatch (.Params.images.after | default "after.jpg") }}
+                
+                <div class="gallery-item animate-on-scroll" 
+                     data-category="{{ .Params.category }}"
+                     data-title="{{ .Title }}"
+                     data-description="{{ .Params.description }}"
+                     data-before="{{ with $beforeImg }}{{ .RelPermalink }}{{ end }}"
+                     data-after="{{ with $afterImg }}{{ .RelPermalink }}{{ end }}">
+                    
+                    {{ if .Params.featured }}
+                    <span class="gallery-badge badge-featured">مميز</span>
+                    {{ end }}
+                    
+                    <div class="ba-container">
+                        <div class="ba-images">
+                            <div class="ba-image before">
+                                {{ with $beforeImg }}
+                                    {{ $resized := .Fill "400x300 smart" }}
+                                    <img src="{{ $resized.RelPermalink }}" 
+                                         alt="قبل - {{ $.Title }}"
+                                         loading="lazy">
+                                {{ end }}
+                                <span class="ba-label">قبل</span>
+                            </div>
+                            <div class="ba-image after">
+                                {{ with $afterImg }}
+                                    {{ $resized := .Fill "400x300 smart" }}
+                                    <img src="{{ $resized.RelPermalink }}" 
+                                         alt="بعد - {{ $.Title }}"
+                                         loading="lazy">
+                                {{ end }}
+                                <span class="ba-label">بعد</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ba-info">
+                        <h3 class="ba-title">{{ .Title }}</h3>
+                        <p class="ba-description">{{ .Params.description }}</p>
+                        <div class="ba-meta">
+                            <span class="meta-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                </svg>
+                                {{ .Params.category | humanize }}
+                            </span>
+                            {{ with .Params.treatment.duration }}
+                            <span class="meta-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {{ . }}
+                            </span>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+            {{ end }}
+        </div>
+        
+        {{- /* View All Button */ -}}
+        <div class="gallery-footer animate-on-scroll" style="text-align: center; margin-top: var(--space-8);">
+            <a href="{{ .viewAllLink | default "/cases/" }}" class="btn btn-primary btn-lg">
+                {{ .viewAllText | default "عرض جميع الحالات" }}
+            </a>
+        </div>
+    </div>
+</section>
+{{ end }}
+
+{{- /* Lightbox Modal */ -}}
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" aria-label="إغلاق">×</button>
+    <button class="lightbox-nav prev" aria-label="السابق">‹</button>
+    <button class="lightbox-nav next" aria-label="التالي">›</button>
+    
+    <div class="lightbox-content">
+        <div class="lightbox-image">
+            <img src="" alt="" id="lightbox-img">
+        </div>
+        <div class="lightbox-info">
+            <h2 class="info-title" id="lightbox-title"></h2>
+            <span class="info-category" id="lightbox-category"></span>
+            <p class="info-description" id="lightbox-description"></p>
+        </div>
+    </div>
+</div>
+
+<style>
+.before-after-card {
+    cursor: pointer;
+}
+
+.ba-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.ba-images {
+    aspect-ratio: 4 / 3;
+}
+</style>

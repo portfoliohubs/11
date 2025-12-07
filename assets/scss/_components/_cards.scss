@@ -1,0 +1,567 @@
+// ===================================
+// 🃏 Base Card Styles
+// ===================================
+.card {
+  background-color: var(--card-bg);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: var(--card-padding);
+  transition: var(--transition-base);
+  overflow: hidden;
+  
+  // Card Header
+  .card-header {
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    
+    .card-title {
+      @include heading-base;
+      margin-bottom: var(--space-2);
+      font-size: var(--text-xl);
+    }
+    
+    .card-subtitle {
+      color: var(--color-text-secondary);
+      font-size: var(--text-sm);
+      margin-bottom: 0;
+    }
+  }
+  
+  // Card Body
+  .card-body {
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+  
+  // Card Footer
+  .card-footer {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+  
+  // Card Image
+  .card-image {
+    margin: calc(var(--card-padding) * -1);
+    margin-bottom: var(--space-4);
+    
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--card-radius) var(--card-radius) 0 0;
+    }
+  }
+  
+  // Card Actions
+  .card-actions {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+}
+
+// ===================================
+// 🎯 Card Variants
+// ===================================
+
+// Hoverable Card
+.card-hover {
+  cursor: pointer;
+  @include card-hover;
+}
+
+// Bordered Card (no shadow)
+.card-bordered {
+  box-shadow: none;
+  border: 2px solid var(--color-border);
+  
+  &:hover {
+    border-color: var(--color-primary);
+  }
+}
+
+// Flat Card (no border, no shadow)
+.card-flat {
+  box-shadow: none;
+  border: none;
+}
+
+// Glass Card
+.card-glass {
+  @include glass-effect;
+  border: 1px solid var(--color-border);
+}
+
+// Gradient Card
+.card-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 100%
+  );
+  color: white;
+  border: none;
+  
+  .card-title,
+  .card-body {
+    color: white;
+  }
+}
+
+// ===================================
+// 💼 Skill Card (للتخصصات)
+// ===================================
+.skill-card {
+  @extend .card;
+  text-align: center;
+  padding: var(--space-8);
+  transition: var(--transition-base);
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary);
+  }
+  
+  .skill-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-accent-light);
+    border-radius: var(--radius-lg);
+    color: var(--color-primary);
+    font-size: var(--text-3xl);
+    transition: var(--transition-base);
+  }
+  
+  .skill-title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+  }
+  
+  .skill-description {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+  
+  &:hover .skill-icon {
+    transform: scale(1.1) rotate(5deg);
+    background-color: var(--color-primary);
+    color: white;
+  }
+}
+
+// Grid Layout for Skills
+.skills-grid {
+  @include grid-auto-fit(280px, var(--space-6));
+  
+  @include respond-to('md') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @include respond-to('lg') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// ===================================
+// 📊 Stats Card
+// ===================================
+.stat-card {
+  @extend .card;
+  text-align: center;
+  padding: var(--space-6);
+  
+  .stat-number {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-extrabold);
+    color: var(--color-primary);
+    line-height: 1;
+    margin-bottom: var(--space-2);
+    
+    @include respond-to('lg') {
+      font-size: var(--text-5xl);
+    }
+  }
+  
+  .stat-label {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-medium);
+  }
+  
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto var(--space-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: var(--radius-lg);
+    font-size: var(--text-xl);
+  }
+}
+
+// ===================================
+// 📝 Testimonial Card
+// ===================================
+.testimonial-card {
+  @extend .card;
+  position: relative;
+  padding: var(--space-8);
+  
+  &::before {
+    content: '"';
+    position: absolute;
+    top: var(--space-4);
+    @include start(var(--space-4));
+    font-size: 4rem;
+    color: var(--color-primary);
+    opacity: 0.2;
+    line-height: 1;
+    font-family: Georgia, serif;
+  }
+  
+  .testimonial-text {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    margin-bottom: var(--space-6);
+    font-style: italic;
+  }
+  
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--color-primary);
+    }
+    
+    .author-info {
+      .author-name {
+        font-weight: var(--font-bold);
+        color: var(--color-text);
+        margin-bottom: var(--space-1);
+      }
+      
+      .author-role {
+        font-size: var(--text-sm);
+        color: var(--color-text-secondary);
+      }
+    }
+  }
+  
+  .testimonial-rating {
+    margin-top: var(--space-3);
+    color: #FFD700;
+    font-size: var(--text-lg);
+  }
+}
+
+// ===================================
+// 🖼️ Image Card (للحالات)
+// ===================================
+.image-card {
+  @extend .card;
+  padding: 0;
+  overflow: hidden;
+  
+  .image-wrapper {
+    position: relative;
+    overflow: hidden;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition-slow);
+    }
+    
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 0.7) 100%
+      );
+      opacity: 0;
+      transition: var(--transition-base);
+      display: flex;
+      align-items: flex-end;
+      padding: var(--space-4);
+      
+      .overlay-content {
+        color: white;
+        transform: translateY(20px);
+        transition: var(--transition-base);
+        
+        .overlay-title {
+          font-size: var(--text-xl);
+          font-weight: var(--font-bold);
+          margin-bottom: var(--space-2);
+        }
+        
+        .overlay-description {
+          font-size: var(--text-sm);
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+  
+  &:hover {
+    .image-wrapper {
+      img {
+        transform: scale(1.1);
+      }
+      
+      .image-overlay {
+        opacity: 1;
+        
+        .overlay-content {
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+  
+  .image-content {
+    padding: var(--space-4);
+  }
+}
+
+// ===================================
+// 🎴 Before/After Card
+// ===================================
+.before-after-card {
+  @extend .card;
+  padding: 0;
+  
+  .ba-container {
+    position: relative;
+    overflow: hidden;
+    @include aspect-ratio(4, 3);
+    
+    .ba-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 100%;
+      gap: 2px;
+      
+      .ba-image {
+        position: relative;
+        overflow: hidden;
+        
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        
+        .ba-label {
+          position: absolute;
+          top: var(--space-3);
+          @include start(var(--space-3));
+          background-color: rgba(0, 0, 0, 0.8);
+          color: white;
+          padding: var(--space-2) var(--space-3);
+          border-radius: var(--radius-base);
+          font-size: var(--text-xs);
+          font-weight: var(--font-bold);
+          text-transform: uppercase;
+          letter-spacing: var(--tracking-wide);
+        }
+        
+        &.before .ba-label {
+          background-color: var(--color-error);
+        }
+        
+        &.after .ba-label {
+          background-color: var(--color-success);
+        }
+      }
+    }
+  }
+  
+  .ba-info {
+    padding: var(--space-4);
+    
+    .ba-title {
+      font-size: var(--text-lg);
+      font-weight: var(--font-bold);
+      color: var(--color-text);
+      margin-bottom: var(--space-2);
+    }
+    
+    .ba-description {
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      @include line-clamp(2);
+    }
+    
+    .ba-meta {
+      display: flex;
+      gap: var(--space-4);
+      margin-top: var(--space-3);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-1);
+        
+        svg {
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+  }
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+// ===================================
+// 💳 Profile Card
+// ===================================
+.profile-card {
+  @extend .card;
+  text-align: center;
+  padding: var(--space-8);
+  
+  .profile-avatar {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto var(--space-4);
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--color-primary);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .profile-name {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+  
+  .profile-title {
+    font-size: var(--text-base);
+    color: var(--color-primary);
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--space-1);
+  }
+  
+  .profile-specialty {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+  }
+  
+  .profile-bio {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-6);
+  }
+  
+  .profile-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: var(--space-4);
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-base);
+    margin-bottom: var(--space-4);
+    
+    .stat-item {
+      text-align: center;
+      
+      .stat-value {
+        font-size: var(--text-xl);
+        font-weight: var(--font-bold);
+        color: var(--color-primary);
+      }
+      
+      .stat-label {
+        font-size: var(--text-xs);
+        color: var(--color-text-muted);
+        margin-top: var(--space-1);
+      }
+    }
+  }
+  
+  .profile-actions {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: center;
+  }
+}
+
+// ===================================
+// 📱 Responsive Adjustments
+// ===================================
+@include respond-to('sm') {
+  .card {
+    padding: var(--space-8);
+  }
+  
+  .skill-card {
+    padding: var(--space-10);
+  }
+}
+
+@include respond-to('md') {
+  .before-after-card .ba-container .ba-images {
+    gap: 4px;
+  }
+}
+
+// ===================================
+// ♿ Accessibility
+// ===================================
+.card-hover,
+.image-card,
+.before-after-card {
+  @include focus-ring;
+  
+  &:focus-visible {
+    outline-offset: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-hover,
+  .skill-card,
+  .image-card {
+    &:hover {
+      transform: none;
+    }
+  }
+}

@@ -1,0 +1,470 @@
+// ===================================
+// 🌙 Dark Mode Transitions
+// ===================================
+
+// تطبيق Transition سلس على جميع العناصر عند التبديل
+* {
+  transition: background-color var(--duration-base) var(--ease-in-out),
+              color var(--duration-base) var(--ease-in-out),
+              border-color var(--duration-base) var(--ease-in-out),
+              box-shadow var(--duration-base) var(--ease-in-out);
+}
+
+// ===================================
+// 🎨 Dark Mode Specific Styles
+// ===================================
+
+[data-theme="dark"] {
+  
+  // Body & HTML
+  body {
+    background-color: var(--bg-primary);
+    color: var(--color-text);
+  }
+  
+  // ===================================
+  // 📝 Typography Adjustments
+  // ===================================
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-text);
+  }
+  
+  p, span, li, a {
+    color: var(--color-text-secondary);
+  }
+  
+  a {
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+  
+  // ===================================
+  // 🔲 Cards & Containers
+  // ===================================
+  .card,
+  .box,
+  .panel {
+    background-color: var(--bg-secondary);
+    border-color: var(--color-border);
+    box-shadow: var(--shadow-md);
+  }
+  
+  // ===================================
+  // 🖼️ Images & Media
+  // ===================================
+  img {
+    // تقليل السطوع قليلاً في الوضع الداكن
+    opacity: 0.95;
+    
+    &:hover {
+      opacity: 1;
+    }
+  }
+  
+  // Image Overlay في الوضع الداكن
+  .image-overlay::after {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  
+  // ===================================
+  // 🎯 Buttons
+  // ===================================
+  .btn {
+    &.btn-primary {
+      background-color: var(--color-primary);
+      color: var(--color-text-inverse);
+      
+      &:hover {
+        background-color: var(--color-primary-light);
+      }
+    }
+    
+    &.btn-secondary {
+      background-color: var(--bg-tertiary);
+      color: var(--color-text);
+      border-color: var(--color-border);
+      
+      &:hover {
+        background-color: var(--bg-secondary);
+      }
+    }
+    
+    &.btn-outline {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+      
+      &:hover {
+        background-color: var(--color-primary);
+        color: var(--color-dark);
+      }
+    }
+  }
+  
+  // ===================================
+  // 📋 Forms & Inputs
+  // ===================================
+  input,
+  textarea,
+  select {
+    background-color: var(--bg-tertiary);
+    color: var(--color-text);
+    border-color: var(--color-border);
+    
+    &:focus {
+      background-color: var(--bg-secondary);
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(0, 168, 232, 0.2);
+    }
+    
+    &::placeholder {
+      color: var(--color-text-muted);
+    }
+  }
+  
+  // ===================================
+  // 🔝 Header & Navigation
+  // ===================================
+  .header {
+    background-color: var(--header-bg);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--header-shadow);
+  }
+  
+  .nav-link {
+    color: var(--color-text-secondary);
+    
+    &:hover,
+    &.active {
+      color: var(--color-primary);
+    }
+  }
+  
+  // ===================================
+  // 📲 Bottom Navigation
+  // ===================================
+  .bottom-nav {
+    background-color: var(--bottom-nav-bg);
+    border-top: 1px solid var(--color-border);
+    box-shadow: var(--bottom-nav-shadow);
+    
+    .nav-item {
+      color: var(--color-text-muted);
+      
+      &.active {
+        color: var(--color-primary);
+      }
+    }
+  }
+  
+  // ===================================
+  // 🎈 Floating Buttons
+  // ===================================
+  .floating-btn {
+    background-color: var(--color-primary);
+    color: var(--color-dark);
+    box-shadow: var(--floating-btn-shadow);
+    
+    &:hover {
+      background-color: var(--color-primary-light);
+      transform: scale(1.05);
+    }
+    
+    &.whatsapp-btn {
+      background-color: #25D366;
+      
+      &:hover {
+        background-color: #1EBE57;
+      }
+    }
+  }
+  
+  // ===================================
+  // 🖼️ Gallery
+  // ===================================
+  .gallery-item {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--color-border);
+    
+    &:hover {
+      box-shadow: var(--shadow-lg);
+    }
+  }
+  
+  .gallery-overlay {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  // ===================================
+  // 💼 Skills Section
+  // ===================================
+  .skill-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--color-border);
+    
+    &:hover {
+      background-color: var(--bg-tertiary);
+      border-color: var(--color-primary);
+    }
+    
+    .skill-icon {
+      background-color: rgba(0, 168, 232, 0.1);
+      color: var(--color-primary);
+    }
+  }
+  
+  // ===================================
+  // 🦸 Hero Section
+  // ===================================
+  .hero {
+    &::before {
+      // Dark overlay على الخلفية
+      background: linear-gradient(
+        135deg,
+        rgba(0, 52, 89, 0.95) 0%,
+        rgba(0, 119, 190, 0.85) 100%
+      );
+    }
+  }
+  
+  .hero-stats {
+    .stat-item {
+      background-color: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  }
+  
+  // ===================================
+  // 🔽 Footer
+  // ===================================
+  .footer {
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--color-border);
+    
+    .footer-link {
+      color: var(--color-text-muted);
+      
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
+  }
+  
+  // ===================================
+  // 🎯 Modals & Overlays
+  // ===================================
+  .modal {
+    .modal-backdrop {
+      background: var(--overlay-dark);
+    }
+    
+    .modal-content {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-xl);
+    }
+  }
+  
+  // ===================================
+  // 🔔 Alerts & Notifications
+  // ===================================
+  .alert {
+    background-color: var(--bg-tertiary);
+    border-color: var(--color-border);
+    
+    &.alert-success {
+      background-color: rgba(61, 211, 101, 0.1);
+      border-color: var(--color-success);
+      color: var(--color-success);
+    }
+    
+    &.alert-warning {
+      background-color: rgba(255, 217, 61, 0.1);
+      border-color: var(--color-warning);
+      color: var(--color-warning);
+    }
+    
+    &.alert-error {
+      background-color: rgba(255, 107, 107, 0.1);
+      border-color: var(--color-error);
+      color: var(--color-error);
+    }
+    
+    &.alert-info {
+      background-color: rgba(54, 201, 220, 0.1);
+      border-color: var(--color-info);
+      color: var(--color-info);
+    }
+  }
+  
+  // ===================================
+  // 📊 Charts & Visualizations
+  // ===================================
+  .chart,
+  svg {
+    // تعديل ألوان الرسوم البيانية
+    text {
+      fill: var(--color-text-secondary);
+    }
+    
+    line, path {
+      stroke: var(--color-border);
+    }
+  }
+  
+  // ===================================
+  // 🔍 Search & Filters
+  // ===================================
+  .search-input {
+    background-color: var(--bg-tertiary);
+    border-color: var(--color-border);
+    
+    &:focus {
+      background-color: var(--bg-secondary);
+    }
+  }
+  
+  .filter-btn {
+    background-color: var(--bg-tertiary);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+    
+    &.active {
+      background-color: var(--color-primary);
+      color: var(--color-dark);
+      border-color: var(--color-primary);
+    }
+  }
+  
+  // ===================================
+  // 📱 Mobile Specific Adjustments
+  // ===================================
+  @media (max-width: 767px) {
+    // تحسينات إضافية للموبايل في الوضع الداكن
+    .hero {
+      &::before {
+        opacity: 0.98;
+      }
+    }
+    
+    .bottom-nav {
+      backdrop-filter: blur(10px);
+      background-color: rgba(26, 29, 41, 0.95);
+    }
+  }
+  
+  // ===================================
+  // 🎨 Code Blocks (إذا وجدت)
+  // ===================================
+  pre,
+  code {
+    background-color: var(--bg-tertiary);
+    color: var(--color-secondary-light);
+    border: 1px solid var(--color-border);
+  }
+  
+  // ===================================
+  // 🔗 Social Media Icons
+  // ===================================
+  .social-icon {
+    color: var(--color-text-muted);
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--color-border);
+    
+    &:hover {
+      color: var(--color-primary);
+      background-color: var(--bg-secondary);
+      border-color: var(--color-primary);
+    }
+  }
+  
+  // ===================================
+  // 📄 PDF Viewer Adjustments
+  // ===================================
+  .pdf-preview {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--color-border);
+    
+    canvas {
+      filter: brightness(0.95);
+    }
+  }
+  
+  // ===================================
+  // ♿ High Contrast Mode Support
+  // ===================================
+  @media (prefers-contrast: high) {
+    // زيادة التباين في الوضع الداكن
+    --color-text: #FFFFFF;
+    --color-border: #505866;
+    
+    .btn-primary {
+      border: 2px solid var(--color-primary-light);
+    }
+  }
+}
+
+// ===================================
+// 🌓 Dark Mode Toggle Button Styles
+// ===================================
+.dark-mode-toggle {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  background-color: var(--color-light-gray);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition-base);
+  
+  &::before {
+    content: '☀️';
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: var(--text-sm);
+    transition: var(--transition-base);
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    background-color: white;
+    border-radius: 50%;
+    transition: var(--transition-base);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  [data-theme="dark"] & {
+    background-color: var(--color-primary);
+    
+    &::before {
+      content: '🌙';
+      left: auto;
+      right: 5px;
+    }
+    
+    &::after {
+      left: calc(100% - 27px);
+      background-color: var(--color-dark);
+    }
+  }
+  
+  &:hover {
+    background-color: var(--color-primary-light);
+  }
+}
+
+// ===================================
+// 🎭 Smooth Theme Transition
+// ===================================
+html {
+  &.transitioning * {
+    transition: none !important;
+  }
+}
