@@ -1,0 +1,48 @@
+/* assets/scss/components/_header.scss */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 1rem 0;
+  transition: all 0.3s ease;
+  
+  &.scrolled {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 0.5rem 0;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  /* Desktop Nav */
+  .nav-desktop {
+    display: flex;
+    gap: 2rem;
+    
+    @media (max-width: 768px) {
+      display: none;
+    }
+
+    a {
+      color: var(--text-primary);
+      font-weight: 600;
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
+  }
+}
