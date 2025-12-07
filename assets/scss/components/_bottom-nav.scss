@@ -1,0 +1,59 @@
+/* assets/scss/components/_bottom-nav.scss */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--glass-border);
+  z-index: 2000;
+  display: flex;
+  justify-content: space-around;
+  padding: 0.8rem 0;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+
+  /* إخفاء القائمة على الشاشات الكبيرة */
+  @media (min-width: 769px) {
+    display: none;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    transition: all 0.3s ease;
+    gap: 4px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      stroke-width: 2px;
+    }
+
+    &.active, &:hover {
+      color: var(--color-primary);
+      transform: translateY(-2px);
+      
+      svg {
+        stroke: var(--color-primary);
+        fill: rgba(var(--color-primary-rgb), 0.1);
+      }
+    }
+  }
+}
+
+/* رفع المحتوى قليلاً حتى لا يغطيه البار السفلي في الموبايل */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 70px;
+  }
+  
+  .floating-btn {
+    bottom: 80px !important; 
+  }
+}
